@@ -14,8 +14,7 @@
     </head>
     
     <body>   
-        <center>
-        <!-- <center style="background-image: url('../static/background.jpg');
+        <center style="background-image: url('../static/background.jpg');
         background-position: center;
         background-size: cover;
         background-repeat: no-repeat;
@@ -24,7 +23,7 @@
         position: absolute;
         top:50%;
         left:50%;
-        transform:translate(-50%,-50%)"> -->
+        transform:translate(-50%,-50%)">
             <!--<div class="head-wrap">-->
                 <!--
                     <h1>Signature Recogonition</h1>
@@ -70,17 +69,17 @@
                         <input name="filePath" type="file" accept=".jpeg,.jpg,.png"/>
                         <input class="sub" type="submit" value="check"/>
                         </div>
-                        <img src="{{ file_url }}" alt="">
-                            {{file_url}}
-
                     </form>
-
+                    
                     <br>
                     <br>
                     
                 </div>
                 
-        </center> 
-    </body>     
+            </center> 
+            
+            <img src="{{ file_url }}" alt="">
+                {{ file_url }}
+        </body>    
 </html>
 {%endblock%}

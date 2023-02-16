@@ -5,7 +5,7 @@ from django.contrib import messages
 from PIL import Image
 # import keras
 import numpy as np
-import os
+#import os
 from django.core.files.storage import FileSystemStorage
 
 #for intergration
@@ -29,23 +29,23 @@ def login_user(request):
             
     else:
         return render(request,'login.html',{})
-# def makeVerification(path):
-#     #we can open the image
-#     img=Image.open(path)
-#     #we resize the image for the model
-#     img_d=img.resize((244,244))
-#     #we check if image is RGB or not
-#     if len(np.array(img_d).shape)<4:
-#         rgb_img=Image.new("RGB",img_d.size)
-#         rgb_img.paste(img_d)
-#     else:
-#         rgb_img=img_d
-#     #here we convert the image into numpy array and reshape
-#     rgb_img=np.array(rgb_img,dtype=np.float64)
-#     rgb_img=rgb_img.reshape(244,244)
+def makeVerification(path):
+    #we can open the image
+    img=Image.open(path)
+    #we resize the image for the model
+    img_d=img.resize((244,244))
+    #we check if image is RGB or not
+    if len(np.array(img_d).shape)<4:
+        rgb_img=Image.new("RGB",img_d.size)
+        rgb_img.paste(img_d)
+    else:
+        rgb_img=img_d
+    #here we convert the image into numpy array and reshape
+    rgb_img=np.array(rgb_img,dtype=np.float64)
+    rgb_img=rgb_img.reshape(244,244)
 
-#     #make verification logic here
-#     #def verification
+    #make verification logic here
+    #def verification
 
     #this is the process of preprocessing
 def upload_verfiy(request):
