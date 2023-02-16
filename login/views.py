@@ -30,24 +30,72 @@ def login_user(request):
     else:
         return render(request,'login.html',{})
 def makeVerification(path):
-    #we can open the image
-    img=Image.open(path)
-    #we resize the image for the model
-    img_d=img.resize((244,244))
-    #we check if image is RGB or not
-    if len(np.array(img_d).shape)<4:
-        rgb_img=Image.new("RGB",img_d.size)
-        rgb_img.paste(img_d)
+    import tensorflow as tf
+    import matplotlib.pyplot as plt
+    import cv2
+    import os
+    import numpy as np
+    from tensorflow.keras.preprocessing.image import ImageDataGenerator,array_to_img, img_to_array
+    from tensorflow.keras.preprocessing import image
+    import pandas as pd
+    import itertools
+    import sklearn
+    #this is for submitted image to array
+    folder="media_path"
+    def load_images_from_folder(folder_path):
+        for image in os.listdir(folder_path):
+            img_arr= cv2.imread(os.path.join(folder,image),cv2.IMREAD_GRAYSCALE)
+            img_arr=img_arr/255
+            new_arr=cv2.resize(img_arr,(70,70))
+            return new_arr
+    img=load_images_from_folder(folder)
+
+    #this for customer id to image convert
+    DATADIR="C:/Users/safal/Downloads/archive (3)/sign_data/sign_data/train"
+    CATEGORIES=['001','002','003']
+    data=[]#this is a list
+    labl=[]
+    def create_image_data():
+        for category in CATEGORIES:
+            class_num=CATEGORIES.index(category)
+            path=os.path.join(DATADIR,category)#path to 001 or 001_forg or 002 ----dir
+            for img in os.listdir(path):
+                    img_array=cv2.imread(os.path.join(path,img),cv2.IMREAD_GRAYSCALE)
+                    img_array=img_array/255
+                    new_array=cv2.resize(img_array,(70,70))
+                    #print(new_array)
+                    data.append([new_array])
+                    labl.append(class_num)
+    create_image_data()
+    labl= np.array(labl)
+    images= np.array(data)
+    images=np.reshape(images,(72,70,70))
+    if cid=="001":
+        label=0
+        image=images[label]
+    elif cid=="002":
+        label=24
+        image=images[label]
+    elif cid=="003":
+        label=49
+        image=images[label]
     else:
-        rgb_img=img_d
-    #here we convert the image into numpy array and reshape
-    rgb_img=np.array(rgb_img,dtype=np.float64)
-    rgb_img=rgb_img.reshape(244,244)
+        error_message="not a valid customer id"
+    
 
-    #make verification logic here
-    #def verification
+    #customer id bata derieve vako image 'image' variable ma xa ani submit garda deko image chai 'img' array ma aaxa
+    #the code below is for loading the model
+    from tensorflow.keras.models import load_model
+    siamese_model=load_model('3person.h5')
+    verification=siamese_model.predict([image.reshape((1, 100, 100)), img.reshape((1, 100, 100))]).flatten()
+    verification=verification*100
+    if(verification>=80):
+        print("real")
+    else:
+        print("forgery")
 
-    #this is the process of preprocessing
+
+        
 def upload_verfiy(request):
     if request.method=="POST" and request.FILES['filePath']:
         if 'filePath' not in request.FILES:
