@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{%load static%}
+{% block content %}
+<!DOCTYPE HTML>
+<html lang="en" style="background:url('background.jpg');
+">
+
+    <head>
+        <title>Signature Recogintion</title>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    
+    <body>   
+        <center>
+        <!-- <center style="background-image: url('../static/background.jpg');
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        width:100%;
+        height:100%;
+        position: absolute;
+        top:50%;
+        left:50%;
+        transform:translate(-50%,-50%)"> -->
+            <!--<div class="head-wrap">-->
+                <!--
+                    <h1>Signature Recogonition</h1>
+                </div> -->
+                {% include 'navbar.html' %}
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <!-- <img src="static 'background.jpg" alt=""> -->
+                <!-- <img src= class="card-img-top" alt="..."> -->
+                
+                <div class="card2">
+                    <form method="post" enctype="multipart/form-data">
+                        <style>
+                            form{
+                                
+                                width: 50%;
+                                height: 75%;
+                                 display: flex;
+                                /* justify-content: space-around; */
+                                flex-direction: column;
+                                align-items: center; 
+                            }
+                        </style>
+                        {% csrf_token %}
+                        <div class="container" style="color: white;
+                        width: 45vh;
+                        transform: translatey(-30%);
+                        transform: translatex(-20%);
+                        background-color:blue;
+                        height: 50%;">
+                        <div class="customer"><label for="CustomerID" style="color: white;
+                        text-align: left;">Customer ID:</label> </div>
+                        <input type="text" id="usr", name= "customer ID">
+                        <br>
+                        <label for="Upload image" style="color: white;">Upload image:</label>
+                        <input name="filePath" type="file" accept=".jpeg,.jpg,.png"/>
+                        <input class="sub" type="submit" value="check"/>
+                        </div>
+                        <img src="{{ file_url }}" alt="">
+                            {{file_url}}
+
+                    </form>
+
+                    <br>
+                    <br>
+                    
+                </div>
+                
+        </center> 
+    </body>     
+</html>
+{%endblock%}

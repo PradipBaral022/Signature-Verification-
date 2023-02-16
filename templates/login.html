@@ -1,0 +1,88 @@
+{% extends 'base.html'%}
+{% block content %}
+
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <title>Signature Verification Website</title>
+            <style>
+              body {
+                 margin: 0px;
+                 border-radius: 0px;
+                 padding:0px;
+                 background-image: url('../static/background.jpg');
+
+              }
+              main{
+                height: 85%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              }
+              div.form
+                  {
+                    display: block;
+                    text-align: center;
+                  }
+
+              section {
+                background-color: rgba(255, 255, 255, 0.659);
+                padding: 20px;
+                box-shadow: 0 0 10px rgba(204, 204, 204, 0.753);
+                text-align: center;
+              }
+
+              form {
+                margin-top: 20px;
+                display: inline-block;
+                text-align: left;
+                padding: 20px;
+                background-color: #f2f2f2;
+                box-shadow: 0 0 10px #ccc;
+              }
+
+              form input[type="text"],
+              form input[type="email"],
+              form input[type="password"] {
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 20px;
+                font-size: 1rem;
+                box-sizing: border-box;
+                border: none;
+                border-bottom: 2px solid #333;
+                align-content: center;
+              }
+
+              form input[type="submit"] {
+                width: 100%;
+                padding: 10px;
+                background-color: #333;
+                color: #fff;
+                font-size: 16px;
+                border: none;
+                cursor: pointer;
+              }
+            </style>
+          </head>
+          <body>
+            <main>
+              <div class="card" style="width: 28rem;
+              border-radius: 0.8rem;
+              background-color: gray;">
+
+                    <section id="login">
+                      <h2 style="color: black;">Login In As Administrator</h2>
+                      <form action="" method="post"
+                      style="border-radius: 0.5rem;
+                      font-family: poppins;">
+                        {% csrf_token %}
+                        <i><input type="text" name="username" placeholder= "User Name"></i>
+                        <input type="password" name="password" placeholder="Password">
+                        <input type="submit" value="login">
+                      </form>
+                    </section>
+              </div>
+            </main>
+          </body>
+{%endblock%}
