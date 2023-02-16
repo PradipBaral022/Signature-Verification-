@@ -29,7 +29,6 @@ def login_user(request):
             
     else:
         return render(request,'login.html',{})
-
 # def makeVerification(path):
 #     #we can open the image
 #     img=Image.open(path)
@@ -43,7 +42,7 @@ def login_user(request):
 #         rgb_img=img_d
 #     #here we convert the image into numpy array and reshape
 #     rgb_img=np.array(rgb_img,dtype=np.float64)
-#     rgb_img=rgb_img.reshape(1,244,244,3)
+#     rgb_img=rgb_img.reshape(244,244)
 
 #     #make verification logic here
 #     #def verification
