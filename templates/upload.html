@@ -63,10 +63,16 @@
                         height: 50%;">
                         <div class="customer"><label for="CustomerID" style="color: white;
                         text-align: left;">Customer ID:</label> </div>
-                        <input type="text" id="usr", name= "customer ID">
+                        <input type="text" id="usr", name= "cid">
                         <br>
                         <label for="Upload image" style="color: white;">Upload image:</label>
                         <input name="filePath" type="file" accept=".jpeg,.jpg,.png"/>
+                        </br>
+                        </br>
+                        {% comment %} <img src="{{ file_url }}" alt=""> {% endcomment %}
+                            {{ file_url }}
+                            <br></br>
+                            {{ key1 }}
                         <input class="sub" type="submit" value="check"/>
                         </div>
                     </form>
@@ -78,8 +84,6 @@
                 
             </center> 
             
-            <img src="{{ file_url }}" alt="">
-                {{ file_url }}
         </body>    
 </html>
 {%endblock%}
