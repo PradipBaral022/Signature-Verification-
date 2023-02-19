@@ -1,4 +1,5 @@
-from django.contrib.auth import login,authenticate
+from django.contrib.auth import login,authenticate,logout
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render,redirect
 from django.contrib import messages
 import os
@@ -8,10 +9,9 @@ name="1"
 media="media"
 verification=0.0
 
-
+@login_required
 def home(request):
     return render(request,'upload.html')
-
 def login_user(request):
     if request.method=="POST":
         username = request.POST['username']
@@ -26,7 +26,11 @@ def login_user(request):
             
     else:
         return render(request,'login.html',{})
-
+def logout_user(request):
+    logout(request)
+    messages.success(request,('You were logged out!!!'))
+    return redirect('login')
+@login_required
 def upload_verfiy(request):
     global name
     global verification
@@ -46,16 +50,20 @@ def upload_verfiy(request):
             })
         filePath=request.FILES['filePath']
         fss=FileSystemStorage()
+        # if fss.exists(filePath.name):
+        #     fss.delete(filePath.name)
         file=fss.save(filePath.name,filePath)
         file_url=fss.url(file)
         makeVerification(os.path.join(media,file))
         #dict={"key1":verification,
             #}
+        fss.delete(filePath.name)
         
         return render(request,'upload.html',{
             'file_url':file_url,
             'key1':verification[0]
         })
+
     else:
         return render(request,'upload.html')
 
@@ -84,13 +92,13 @@ def makeVerification(path):
             img_arr = cv2.imread(os.path.join(
                 folder, image), cv2.IMREAD_GRAYSCALE)
             img_arr = img_arr/255
-            new_arr = cv2.resize(img_arr, (70, 70))
+            new_arr = cv2.resize(img_arr, (100, 100))
             return new_arr
     img = load_images_from_folder(folder)
 
     # this is for customer id to image array
     DATADIR = "C:/Users/safal/Downloads/archive (3)/sign_data/sign_data/train"
-    CATEGORIES = ['001', '002', '003']
+    CATEGORIES = ['001','001_forg','002','002_forg', '003','003_forg','004','004_forg']
     data = []  # this is a list
     labl = []
 
@@ -103,7 +111,7 @@ def makeVerification(path):
                 img_array = cv2.imread(os.path.join(
                     path, img), cv2.IMREAD_GRAYSCALE)
                 img_array = img_array/255
-                new_array = cv2.resize(img_array, (70, 70))
+                new_array = cv2.resize(img_array, (100, 100))
                 # print(new_array)
                 data.append([new_array])
                 labl.append(class_num)
@@ -114,25 +122,26 @@ def makeVerification(path):
     image = images[55]
 
     # cid wala lai label ma change haneko ani tyo label anusar ko image read gareko dataset bata
-    if name == "001":
+    if name == "001":#rea
         label = 0
         image = images[label]
     elif name == "002":
-        label = 24
+        label =33
         image = images[label]
     elif name == "003":
-        label = 49
+        label = 70
+        image = images[label]
+    elif name == "004":
+        label = 107
         image = images[label]
     else:
         error_message = "not a valid customer id"
-        print(error_message)
-
     # aba model lai load garna lageko
 
     # customer id bata derieve vako image 'image' variable ma xa ani submit garda deko image chai 'img' array ma aaxa
     # the code below is for loading the model
-    siamese_model = load_model('3person.h5')
+    siamese_model = load_model('4_real_forg.h5')
     verification = siamese_model.predict(
-        [image.reshape((1, 70, 70)), img.reshape((1, 70, 70))]).flatten()
+        [image.reshape((1, 100, 100)), img.reshape((1, 100, 100))]).flatten()
     verification = verification*100
     print(verification[0])
